@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-db-dp
+  namespace: assembly-voter-ns
+  labels:
+    app: postgres-db
+    tier: database
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: postgres-db-pod
+      labels:
+        app: postgres-db
+        tier: database
+    spec:
+      containers:
+        - name: postgres-db-container
+          image: postgres:alpine
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: username
+                  name: postgres-db-cm
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: db
+                  name: postgres-db-cm
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: password
+                  name: postgres-db-cm
+          ports:
+            - containerPort: 5432
+              name: postgres-port
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+      volumes:
+        - name: postgres-data
+          emptyDir: {}
+  selector:
+    matchLabels:
+      app: postgres-db
+      tier: database

@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: # Specifies deployment data
+  name: assembly-voter-dp
+  namespace: assembly-voter-ns
+  labels: # excellent definition patterns
+    app: assembly-voter-api
+    tier: backend
+spec: # Specifies PODS data
+  replicas: 1
+  template:
+    metadata:
+      name: assembly-voter-pod
+      labels: # Here are the definition labels of the pods. The First!
+        app: assembly-voter-api # defined
+        tier: backend # defined
+    spec:
+      containers:
+        - name: assembly-voter-ctn
+          image: lucaswilker14/assembly-voter:v1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: host
+                  name: postgres-db-cm
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: db
+                  name: postgres-db-cm
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: username
+                  name: postgres-db-cm
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: password
+                  name: postgres-db-cm
+            - name: RMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: host
+                  name: rabbitmq-cm
+            - name: RMQ_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: port
+                  name: rabbitmq-cm
+            - name: RMQ_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: default-user
+                  name: rabbitmq-cm
+            - name: RMQ_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: default-pass
+                  name: rabbitmq-cm
+  selector: # Lookup for pods labels defined above. The Second!
+    matchLabels:
+      app: assembly-voter-api # repeats 'app' defined above in 'labels' pod
+      tier: backend # repeats 'app' defined above in 'labels' pod

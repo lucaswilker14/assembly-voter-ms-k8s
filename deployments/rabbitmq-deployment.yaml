@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-dp
+  namespace: assembly-voter-ns
+  labels:
+    app: rabbitmq
+    tier: amqp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: rabbitmq-pod
+      labels:
+        app: rabbitmq
+        tier: amqp
+    spec:
+      containers:
+        - name: rabbitmq-container
+          image: rabbitmq:3.11-management-alpine
+          ports:
+            - containerPort: 15672
+              name: http
+            - containerPort: 5672
+              name: amqp
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: default-user
+                  name: rabbitmq-cm
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                configMapKeyRef:
+                  key: default-pass
+                  name: rabbitmq-cm
+          volumeMounts:
+            - mountPath: /var/lib/rabbitmq
+              name: rmq-data
+              readOnly: false
+      volumes:
+        - name: rmq-data
+          emptyDir: {}
+  selector:
+    matchLabels:
+      app: rabbitmq
+      tier: amqp
