@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap # This is specific kind is for settings enviroments variables in pods
+metadata:
+  name: postgres-db-cm
+  namespace: assembly-voter-ns
+data:
+  host: "postgres-db-svc.assembly-voter-ns.svc.cluster.local" # To connect to the pod/host, follow the patterns: <service-name.namespace.svc.cluster.local>
+  db: "assembly-voter-db"
+  username: "postgres"
+  password: "123"
