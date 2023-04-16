@@ -50,5 +50,5 @@ kubectl create -f services/ --save-config
 ```
 minikube service assembly-voter-svc --url -n assembly-voter-ns
 ```
-
+7. Enjoy (:
 
