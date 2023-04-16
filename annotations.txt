@@ -1,0 +1,33 @@
+In this mini project was used kubernetes + minikube applications.
+
+Here are some notes to remember in the future:
+
+- main commands:
+    - minikube start / delete [ Create/Delete cluster with worker node ]
+    - kubectl create -f <directory/filename> --save-config [ Create new Object (Pod, Deployment, Service...) ]
+    - kubectl logs <pod_name> [ Get all logs of the running application | Without namespace ]
+    - kubectl logs <pod_name> -n <namespace>
+    - kubectl get <pods, namespaces, services...> [ Return the status of created specific objects | without namespace]
+    - kubectl get <pods, namespaces, services...> -n <namespace>
+    - kubectl get all [ Return the status of created all objects ]
+    - kubectl get all -n <namespace>
+    - kubectl describe <pod, service, deployment...> <name_object> [ Describes everything about the object ]
+    - minikube service <name_service> --url [ Get service external url | without namespace ]
+    - minikube service <name_service> --url -n <namespace>
+
+- File Settings and their particularities:
+    - The definition of labels is init in template.metadata.labels.<anyone-labels>
+        - The path selector.matchLabels repeats of the above definitions. It has to be same!
+
+    - It`s a good practice ever to create namespaces cause it separates your workspace well.
+
+    - NodePort: On Windows with docker, this is specific number port don`t work.
+        - Needs 'port forward' otherwise creates number port randomly.
+
+    - Define yours metadata.name well
+
+    - Applications usually have definition host to connect it. Example: Postgres -> jdbc:postgresql://<db-host>:5432/<db-name>
+        - On Kubernetes you need to connect via host pattern.
+            - Host Pattern: service-name.namespace.svc.cluster.local
+            - To replace <db-host>: jdbc:postgresql://<service-name.namespace.svc.cluster.local>:5432/<db-name>
+
