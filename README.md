@@ -17,6 +17,12 @@ Assembly-Voter Image on [Dockerhub](https://hub.docker.com/repository/docker/luc
 * [Minikube K8S](https://minikube.sigs.k8s.io/docs/start/)
 
 ---
+### Application on GKE
+```
+http://35.199.102.229:8080/api/v1/assembly-voter
+```
+
+---
 
 ## Run Local K8S
 
@@ -52,10 +58,5 @@ minikube service assembly-voter-svc --url -n assembly-voter-ns
 ```
 7. Enjoy (:
 
----
-### Application on GKE
-```
-http://35.199.102.229:8080/api/v1/assembly-voter
-```
 
 
