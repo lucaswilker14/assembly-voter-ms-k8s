@@ -52,9 +52,8 @@ minikube service assembly-voter-svc --url -n assembly-voter-ns
 ```
 7. Enjoy (:
 
-
+---
 ### Application on GKE
---
 ```
 http://35.199.102.229:8080/api/v1/assembly-voter
 ```
