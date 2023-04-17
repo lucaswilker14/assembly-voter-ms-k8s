@@ -1,4 +1,4 @@
-# Microservices with Kubernetes + GCP
+# Microservices with Kubernetes + GCP/GKE
 
 ### The microservices used in the project are [here](https://github.com/lucaswilker14/assembly-voter).
 
